@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datatables</title>
+    <title>TablaInteligente</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <!-- CSS personalizado --> 
-    <link rel="stylesheet" href="/css/main.css">      
+    <link rel="stylesheet" href="css/main.css">      
     <!--datables CSS básico-->
     <link rel="stylesheet" type="text/css" href="datatables/datatables.min.css"/>
     <!--datables estilo bootstrap 4 CSS-->  
@@ -20,82 +20,87 @@
 <body> 
 <header>
 <!--navbar del datatables-->
-<h1 class="text-center text-light">DATATABLE</h1>
-<a href="/home.html"> <i class='fas fa-home' style='font-size:25px;color:white'></i></a>
+<h1 class="text-center text-light">TaskList</h1>
+<a href="../tablaInteligenteApp/home.html"> <i class='fas fa-home' style='font-size:1.5rem;color:white'></i></a>
 
 <h2 class="text-center text-light">Por <a href="https://github.com/Axel-lis"><span class="badge badge-warning">Axel Liscovsky</span></h2> </a>
 </header>    
-   <div style="height:50px"></div>
     
    <!--Ejemplo tabla con DataTables-->
-   <div class="container">
-       <div class="row">
-               <div class="col-lg-12">
-                   <div class="table-responsive">        
-                       <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                       <thead>
-                           <tr>
-                               <th>Nombre</th>
-                               <th>Puesto</th>
-                               <th>Ciudad</th>                               
-                               <th>Año de Ingreso</th>
-                               <th>Salario</th>
+<div class="container" id="datatableContainer">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive">        
+            <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr> 
+                               <th>ID</th>
+                               <th>Tarea</th>
+                               <th>Fecha Inicio</th>                               
+                               <th>Fecha Fin</th>
+                               <th>Detalles</th>
+                               <th>Prioridad</th>
+                               <th></th>
                            </tr>
                        </thead>
                        <tbody>
-                           <tr>
-                               <td>Tiger Nixon</td>
-                               <td>Arquitecto</td>
-                               <td>Edinburgh</td>                                
-                               <td>2011/04/25</td>
-                               <td>$320,800</td>
-                           </tr>
-                           <tr>
-                               <td>Garrett Winters</td>
-                               <td>Contador</td>
-                               <td>Tokyo</td>                                
-                               <td>2011/07/25</td>
-                               <td>$170,750</td>
-                           </tr>                
-                           <tr>
-                               <td>Cedric Kelly</td>
-                               <td>Senior Javascript Developer</td>
-                               <td>Edinburgh</td>                                
-                               <td>2012/03/29</td>
-                               <td>$433,060</td>
-                           </tr> 
-                                  <tr>
-                               <td>Jonas Alexander</td>
-                               <td>Developer</td>
-                               <td>San Francisco</td>                                
-                               <td>2010/07/14</td>
-                               <td>$86,500</td>
-                           </tr>                           
                        </tbody>        
-                      </table>                  
-                   </div>
-               </div>
-       </div>  
-   </div>    
+                    </table>   
+                </div> 
+            </div>
+        </div>  
+   </div>         
+<!--Pop up modal para agregar registro--> 
+<div id="agregarRegistro" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Agregar tarea:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form class="form-group" name="formAgregarRegistro"id="formAgregarRegistro">
+                <label for="prioridad">Prioridad:</label> <br>
+                <input type="number" id="prioridad"  name="prioridad" min="0" max="10"placeholder="Nivel de prioridad.."> <br>
+                <label for="tarea" aria-required="true">Tarea:</label> <br>
+                <input type="text" id="tarea" name="tarea" placeholder="Tarea..."> <br>
+                <label for="fechaInicio">Fecha Inicio:</label> <br>
+                <input type="date" id="fechaInicio" name="fechaInicio"> <br>
+                <label for="fechaFin">Fecha Fin:</label> <br>
+                <input type="date" id="fechaFin" name="fechaFin"> <br>
+                <label for="detalles" id="detalles" name="detalles" placeholder="Comentarios/gastos/detalles">Detalles:</label> <br>
+                <input type="textarea" id="detalles" name="detalles" maxlength="30">
+               </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="guardarModal" class="btn btn-success">GUARDAR</button>
+          <button type="button" id="cancelarModal" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- jQuery, Popper.js, Bootstrap JS -->
+<script src="jquery/jquery-3.3.1.min.js"></script>
+<script src="popper/popper.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
     
-   <!-- jQuery, Popper.js, Bootstrap JS -->
-   <script src="jquery/jquery-3.3.1.min.js"></script>
-   <script src="popper/popper.min.js"></script>
-   <script src="bootstrap/js/bootstrap.min.js"></script>
-     
-   <!-- datatables JS -->
-   <script type="text/javascript" src="datatables/datatables.min.js"></script>    
-    
-   <!-- para usar botones en datatables JS -->  
-   <script src="datatables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>  
-   <script src="datatables/JSZip-2.5.0/jszip.min.js"></script>    
-   <script src="datatables/pdfmake-0.1.36/pdfmake.min.js"></script>    
-   <script src="datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
-   <script src="datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
-    
-   <!-- código JS propìo-->    
-   <script type="text/javascript" src="/js/main.js"></script>  
-   
-   
- </body>
+<!-- datatables JS -->
+<script type="text/javascript" src="datatables/datatables.min.js"></script>    
+
+<!-- para usar botones en datatables JS -->  
+<script src="datatables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>  
+<script src="datatables/JSZip-2.5.0/jszip.min.js"></script>    
+<script src="datatables/pdfmake-0.1.36/pdfmake.min.js"></script>    
+<script src="datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
+<script src="datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
+
+<!-- código JS propìo-->    
+<script type="text/javascript" src="js/main.js"></script>  
+
+
+</body>
 </html>
